@@ -1,0 +1,7 @@
+source ~/.vimrc
+
+set surround
+set ideajoin
+set clipboard += unnamed
+set relativenumber
+set number
