@@ -33,6 +33,10 @@ function mkcd() {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
+function gca() {
+    git add .
+    git commit -m "$1"
+}
 
 # Super important command to setup environment
-g815-led -a d766ff
+# g815-led -a d766ff
