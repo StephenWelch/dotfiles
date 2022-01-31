@@ -2,3 +2,6 @@ source ~/.vimrc
 
 set surround
 set ideajoin
+set which-key
+set notimeout
+set timeoutlen=5000
