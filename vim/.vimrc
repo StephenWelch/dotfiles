@@ -2,13 +2,13 @@ let mapleader = ","
 
 let g:camelcasemotion_key = '<leader>'
 let g:highlightedyank_highlight_duration = "-1"
-let g:highlightedyank_highlight_color = "rgba(60, 160, 70, 255)"
+let g:highlightedyank_highlight_color = "rgba(52, 149, 235, 127)"
 
 " Map jj to Esc since we never type that sequence 
 imap jj <Esc>
-nnoremap <C-t> :NERDTree<CR>
+" nnoremap <C-t> :NERDTree<CR>
 
-:command Tree NERDTree
+" :command Tree NERDTree
 
 call plug#begin()
 Plug 'tpope/vim-surround' " Allows manipulation of enclosing characters
@@ -17,7 +17,8 @@ Plug 'vim-scripts/argtextobj.vim' " Change and traverse function arguments
 Plug 'machakann/vim-highlightedyank' " Highlight yanked text
 Plug 'jeffkreeftmeijer/vim-numbertoggle' " Switches line numbering mode to absolute/relative depending on whether editor is in insert/relative mode
 Plug 'vim-airline/vim-airline' " Nice-looking statusline
-Plug 'preservim/nerdtree' " File tree
+" Plug 'preservim/nerdtree' " File tree
+Plug 'bkad/CamelCaseMotion' " Motions for CamelCase
 call plug#end()
 
 set mouse=a
