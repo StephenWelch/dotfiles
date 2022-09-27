@@ -16,6 +16,7 @@ Plug 'vim-scripts/ReplaceWithRegister' " Replace text directly from register
 Plug 'vim-scripts/argtextobj.vim' " Change and traverse function arguments
 Plug 'machakann/vim-highlightedyank' " Highlight yanked text
 Plug 'jeffkreeftmeijer/vim-numbertoggle' " Switches line numbering mode to absolute/relative depending on whether editor is in insert/relative mode
+Plug 'tpope/vim-fugitive' " Git support
 Plug 'vim-airline/vim-airline' " Nice-looking statusline
 " Plug 'preservim/nerdtree' " File tree
 Plug 'bkad/CamelCaseMotion' " Motions for CamelCase
