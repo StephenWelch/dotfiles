@@ -5,7 +5,7 @@
 
 Install dependencies
 ```
-sudo apt install stow curl make neovim
+sudo apt install stow curl make neovim build-essential
 ```
 
 Clone the repo
@@ -29,4 +29,9 @@ Install neovim plugins
 ```
 nvim
 :PlugInstall
+```
+
+Create SSH Key
+```
+ssh-keygen
 ```
