@@ -1,0 +1,238 @@
+{
+    "version": 1,
+    "kind": "project",
+    "supportedProjectTypes": [ "Qt4ProjectManager.Qt4Project", "CMakeProjectManager.CMakeProject" ],
+    "id": "A.ArcGISQt_Cpp_100_11",
+    "category": "B.CustomProjects",
+    "trDescription": "Creates an ArcGIS Runtime 100.11 Qt Widgets app.",
+    "trDisplayName": "ArcGIS Runtime 100.11 Qt Widgets app",
+    "trDisplayCategory": "ArcGIS",
+    "icon": "wizard.png",
+    "featuresRequired": [ "QtSupport.Wizards.FeatureQt.5.15.2", "QtSupport.Wizards.FeatureQWidgets", "QtSupport.Wizards.FeatureDesktop" ],
+    "platformIndependent": "false",
+    "enabled": "%{JS: [ %{Plugins} ].indexOf('QmakeProjectManager') >= 0 && [ %{Plugins} ].indexOf('CppEditor') >= 0}",
+
+    "options":
+    [
+        { "key": "ProFileName", "value": "%{JS: Util.fileName('%{ProjectDirectory}/%{ProjectName}', 'pro')}" },
+        { "key": "MainCppFileName", "value": "%{JS: 'main.' + Util.preferredSuffix('text/x-c++src')}" },
+        { "key": "CN", "value": "%{JS: '%{ProjectName}'.charAt(0).toUpperCase() + '%{ProjectName}'.substring(1)}" },
+        { "key": "AppDescription", "value": "%{AppDescr}" },
+        { "key": "IncludeGuard", "value": "%{JS: Cpp.classToHeaderGuard('%{CN}', '%{JS: Util.preferredSuffix('text/x-c++hdr')}')}" },
+        { "key": "MinQtMajor", "value": "5" },
+        { "key": "MinQtMinor", "value": "15" },
+        { "key": "MinQtPatch", "value": "1" },
+        { "key": "ArcGISVersion", "value": "100.11" }
+    ],
+
+    "pages":
+    [
+        {
+            "trDisplayName": "Project Location",
+            "trShortTitle": "Location",
+            "typeId": "Project"
+        },
+        {
+            "trDisplayName": "Define Build System",
+            "trShortTitle": "Build System",
+            "typeId": "Fields",
+            "data":
+            [
+                {
+                    "name": "BuildSystem",
+                    "trDisplayName": "Build system",
+                    "type": "ComboBox",
+                    "data":
+                    {
+                        "index": 0,
+                        "items":
+                        [
+                            {
+                                "trKey": "qmake",
+                                "value": "qmake"
+                            },
+                            {
+                                "trKey": "CMake",
+                                "value": "cmake"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "trDisplayName": "Define Project Details",
+            "trShortTitle": "Details",
+            "typeId": "Fields",
+            "data":
+            [
+                {
+                    "name": "AppDescr",
+                    "trDisplayName": "App Description:",
+                    "mandatory": false,
+                    "type": "TextEdit",
+                    "data":
+                    {
+                        "trText": "Sample Widgets app built using the ArcGIS Qt SDK"
+                    }
+                },
+                {
+                    "name": "ThreeDSample",
+                    "trDisplayName": "3D project",
+                    "type": "CheckBox",
+                    "data":{"checked": false}
+                },
+                {
+                    "name": "BaseMapOption2D",
+                    "trDisplayName": "ArcGIS Online Basemap:",
+                    "type": "ComboBox",
+                    "visible": "%{JS: ( '%{ThreeDSample}' === 'false' ) ? 'yes' : ''}",
+                    "data":
+                    {
+                        "index": 0,
+                        "items":
+                        [
+                            {
+                                "trKey": "Streets",
+                                "value": "ArcGISStreets"
+                            },
+                            {
+                                "trKey": "Streets Night",
+                                "value": "ArcGISStreetsNight"
+                            },
+                            {
+                                "trKey": "Imagery",
+                                "value": "ArcGISImagery"
+                            },
+                            {
+                                "trKey": "Light Gray Canvas",
+                                "value": "ArcGISLightGray"
+                            },
+                            {
+                                "trKey": "Navigation",
+                                "value": "ArcGISNavigation"
+                            },
+                            {
+                                "trKey": "Navigation Night",
+                                "value": "ArcGISNavigationNight"
+                            },
+                            {
+                                "trKey": "Oceans",
+                                "value": "ArcGISOceans"
+                            },
+                            {
+                                "trKey": "OpenStreetMap",
+                                "value": "OsmStandard"
+                            },
+                            {
+                                "trKey": "Terrain",
+                                "value": "ArcGISTerrain"
+                            },
+
+                            {
+                                "trKey": "Topographic",
+                                "value": "ArcGISTopographic"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "BaseMapOption3D",
+                    "trDisplayName": "ArcGIS Online Basemap:",
+                    "type": "ComboBox",
+                    "visible": "%{JS: ( '%{ThreeDSample}' === 'true' ) ? 'yes' : ''}",
+                    "data":
+                    {
+                        "index": 0,
+                        "items":
+                        [
+                            {
+                                "trKey": "Imagery",
+                                "value": "ArcGISImagery"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "ElevationOption",
+                    "trDisplayName": "ArcGIS Online Elevation (WorldElevation3D):",
+                    "type": "ComboBox",
+                    "visible": "%{JS: ( '%{ThreeDSample}' === 'true' ) ? 'yes' : ''}",
+                    "data":
+                    {
+                        "index": 0,
+                        "items":
+                        [
+                            {
+                                "trKey": "Terrain 3D",
+                                "value": "Terrain3D"
+                            },
+                            {
+                                "trKey": "Topo Bathymetry 3D",
+                                "value": "TopoBathy3D"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "trDisplayName": "Kit Selection",
+            "trShortTitle": "Kits",
+            "typeId": "Kits",
+            "data": {
+                "projectFilePath": "%{JS: '%{BuildSystem}' === 'cmake' ? '%{ProjectDirectory}/CMakeLists.txt' : '%{ProFileName}' }",
+                "requiredFeatures": [ "QtSupport.Wizards.FeatureQt", "QtSupport.Wizards.FeatureQWidgets", "QtSupport.Wizards.FeatureDesktop" ]
+            }
+        },
+        {
+            "trDisplayName": "Project Management",
+            "trShortTitle": "Summary",
+            "typeId": "Summary"
+        }
+    ],
+    "generators":
+    [
+        {
+            "typeId": "File",
+            "data":
+            [
+                {
+                    "source": "app.pro",
+                    "target": "%{ProFileName}",
+                    "openAsProject": true,
+                    "condition": "%{JS: '%{BuildSystem}' === 'qmake' }"
+                },
+                {
+                    "source": "CMakeLists.txt",
+                    "target": "CMakeLists.txt",
+                    "openAsProject": true,
+                    "condition": "%{JS: '%{BuildSystem}' === 'cmake' }"
+                },
+                {
+                    "source": "cmake/FindArcGISRuntime.cmake",
+                    "target": "cmake/FindArcGISRuntime.cmake",
+                    "condition": "%{JS: '%{BuildSystem}' === 'cmake' }"
+                },
+                {
+                    "source": "main.cpp",
+                    "target": "%{MainCppFileName}"
+                },
+                {
+                    "source": "template.h",
+                    "target": "%{CN}.h"
+                },
+                {
+                    "source": "template.cpp",
+                    "target": "%{CN}.cpp",
+                    "openInEditor": true
+                },
+                {
+                    "source": "arcgisruntime.pri",
+                    "target": "arcgisruntime.pri",
+                    "condition": "%{JS: '%{BuildSystem}' === 'qmake' }"
+                }
+            ]
+        }
+    ]
+}
