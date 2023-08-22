@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<QtSDK>
-    <qch>/Users/swelch/ArcGIS_SDKs/Qt100.11/sdk/doc</qch>
-    <dirPath>/Users/swelch/.config/QtProject/qtcreator/templates/wizards/ArcGISRuntimeQtTemplate100_11</dirPath>
-    <dirPath>/Users/swelch/.config/QtProject/qtcreator/templates/wizards/ArcGISRuntimeQmlTemplate100_11</dirPath>
-    <dirPath>/Users/swelch/.config/QtProject/qtcreator/templates/wizards/ArcGISRuntimeQmlCppTemplate100_11</dirPath>
-    <dirPath>/Users/swelch/ArcGIS_SDKs/Qt100.11/sdk/macOS/.x64</dirPath>
-</QtSDK>
