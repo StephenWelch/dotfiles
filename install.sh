@@ -1,2 +1,2 @@
-sudo apt update && sudo apt install stow
+sudo apt update && sudo apt install stow make
 make
