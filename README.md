@@ -35,5 +35,6 @@ ssh-keygen
 		- turn off line highlighting in gedit
 - Install oh-my-zsh
 - Install p10k
+- Install `gnome-tweak-tool` and `chrome-gnome-shell`
 - To use airpods: `ControllerMode = bredr` in `/etc/bluetooth/main.conf`, `sudo /etc/init.d/bluetooth restart`
 - To fix time on dual-booted systems: `timedatectl set-local-rtc 1`
