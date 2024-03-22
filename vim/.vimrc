@@ -7,6 +7,7 @@ let g:highlightedyank_highlight_color = "rgba(52, 149, 235, 127)"
 " Map jj to Esc since we never type that sequence 
 imap jj <Esc>
 " nnoremap <C-t> :NERDTree<CR>
+set iskeyword-=_
 
 " :command Tree NERDTree
 nmap [; <Plug>Argumentative_Prev
