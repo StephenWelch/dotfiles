@@ -1,7 +1,12 @@
 source ~/.vimrc
 
+" only use quickscope highlights when these keys are pressed
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 set ideajoin
 set which-key
+set quickscope
 
 set notimeout
 set timeoutlen=5000
+

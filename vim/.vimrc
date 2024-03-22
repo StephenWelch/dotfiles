@@ -36,11 +36,15 @@ call plug#end()
 set mouse=a
 set autoindent " Indents the next opened line as the same as preceding
 set smartindent " Enable language-aware auto-indentation
+set expandtab " Expand tabs to spaces
 set clipboard+=unnamedplus " Enable copy-pasting in system from register 0 across all platforms
 set number " Enable line numbering
 set relativenumber " Make line numbers relative to current line. Combined with vim-numbertoggle to automatically switch based on editor mode
+set ruler
 " set tabstop=4 " Display tabs as 4 spaces
 set smarttab " Pressing tab will always align cursor to the next tab column
+
+
 nnoremap <D-v> "+p
 
 if exists("g:neovide")
