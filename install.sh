@@ -1,2 +1,2 @@
-sudo apt update && sudo apt install -y stow build-essential git
+sudo apt update && sudo apt install -y stow build-essential git neovim
 make
