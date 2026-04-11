@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# medusa [N]     -- run N coding agents against the current repo's Beads graph.
+#                   N defaults to 1 (single-agent, no tmux, no worktrees).
+# Env:  BD_HARNESS = opencode (default) | claude | aider
+set -euo pipefail
+
+N="${1:-1}"
+HARNESS="${BD_HARNESS:-opencode}"
+
+command -v "$HARNESS" >/dev/null || { echo "harness '$HARNESS' not on PATH"; exit 1; }
+
+MAIN="$(git rev-parse --show-toplevel 2>/dev/null)" \
+  || { echo "not inside a git repo"; exit 1; }
+[[ -d "$MAIN/.beads" ]] \
+  || { echo "run 'bd init' in $MAIN first"; exit 1; }
+
+# Single-agent: just exec the harness in the repo root. No worktrees, no tmux.
+if [[ "$N" == "1" ]]; then
+  cd "$MAIN"
+  exec "$HARNESS"
+fi
+
+# Multi-agent: worktrees + tmux panes sharing one .beads graph.
+command -v tmux >/dev/null || { echo "tmux required for N > 1"; exit 1; }
+REPO="$(basename "$MAIN")"
+
+for i in $(seq 1 "$N"); do
+  WT="$MAIN/.worktrees/agent-$i"
+  BRANCH="medusa/agent-$i"
+  if [[ ! -d "$WT" ]]; then
+    git -C "$MAIN" worktree add -B "$BRANCH" "$WT" HEAD
+  fi
+  ln -sfn "$MAIN/.beads" "$WT/.beads"
+done
+
+SESSION="medusa-$REPO"
+tmux kill-session -t "$SESSION" 2>/dev/null || true
+tmux new-session -d -s "$SESSION" -c "$MAIN/.worktrees/agent-1" "$HARNESS"
+for i in $(seq 2 "$N"); do
+  tmux split-window -t "$SESSION" -c "$MAIN/.worktrees/agent-$i" "$HARNESS"
+  tmux select-layout -t "$SESSION" tiled
+done
+tmux attach-session -t "$SESSION"
