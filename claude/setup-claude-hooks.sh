@@ -1,38 +1,35 @@
 #!/bin/bash
-# Merge Claude hook config into ~/.claude/settings.json
-# Run after `stow claude` to register the hooks
+# Merge Claude hook config into ~/.claude/settings.json.
+# Idempotent: re-run safely after adding new hooks; existing entries
+# (like joule_*) and unrelated settings are preserved.
+set -e
 
 SETTINGS="$HOME/.claude/settings.json"
+[ -f "$SETTINGS" ] || echo '{}' > "$SETTINGS"
 
-# Create settings file if it doesn't exist
-if [ ! -f "$SETTINGS" ]; then
-  echo '{}' > "$SETTINGS"
-fi
+# Append a hook command to event $1 if not already present.
+#   $1 = event name (Stop, SessionStart, UserPromptSubmit, ...)
+#   $2 = command string
+#   $3 = timeout in seconds
+merge_hook() {
+  local event="$1" cmd="$2" timeout="$3"
+  jq --arg event "$event" --arg cmd "$cmd" --argjson timeout "$timeout" '
+    .hooks //= {}
+    | .hooks[$event] //= [{"hooks": []}]
+    | .hooks[$event][0].hooks //= []
+    | if any(.hooks[$event][0].hooks[]; .command == $cmd) then
+        .
+      else
+        .hooks[$event][0].hooks += [{type: "command", command: $cmd, timeout: $timeout}]
+      end
+  ' "$SETTINGS" > "${SETTINGS}.tmp" && mv "${SETTINGS}.tmp" "$SETTINGS"
+}
 
-# Check if hooks are already configured
-if jq -e '.hooks.Stop' "$SETTINGS" > /dev/null 2>&1; then
-  echo "Claude hooks already configured in $SETTINGS"
-  exit 0
-fi
+# Stop: review/commit loop, then "Claude finished" tmux toast.
+merge_hook Stop 'bash ~/.claude/hooks/auto_stop.sh' 10
+merge_hook Stop "[ -n \"\$TMUX\" ] && tmux display-message -d 2500 'Claude finished' 2>/dev/null; exit 0" 5
 
-# Add hooks config
-jq '.hooks = {
-  "Stop": [
-    {
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ~/.claude/hooks/auto_stop.sh",
-          "timeout": 10
-        },
-        {
-          "type": "command",
-          "command": "[ -n \"$TMUX\" ] && tmux display-message -d 2500 '"'"'Claude finished'"'"' 2>/dev/null; exit 0",
-          "timeout": 5
-        }
-      ]
-    }
-  ]
-}' "$SETTINGS" > "${SETTINGS}.tmp" && mv "${SETTINGS}.tmp" "$SETTINGS"
+# SessionStart: name the tmux window after the project.
+merge_hook SessionStart 'bash ~/.claude/hooks/tmux_rename.sh SessionStart' 3
 
 echo "Claude hooks configured in $SETTINGS"
