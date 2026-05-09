@@ -1,1 +1,0 @@
-../../beads/.config/beads/AGENTS.md
