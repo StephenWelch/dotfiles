@@ -1,20 +1,20 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "ollama": {
+    "llama": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama (local)",
+      "name": "llama.cpp (local)",
       "options": {
-        "baseURL": "http://localhost:11434/v1"
+        "baseURL": "http://localhost:8080/v1"
       },
       "models": {
-        "qwen2.5-coder-bd:32b": {
-          "name": "Qwen2.5-Coder 32B (Beads, 32K ctx)"
+        "qwen2.5-coder-32b": {
+          "name": "Qwen2.5-Coder 32B (Q5_K_M, 32K ctx)"
         }
       }
     }
   },
-  "model": "ollama/qwen2.5-coder-bd:32b",
+  "model": "llama/qwen2.5-coder-32b",
   "mcp": {
     "beads": {
       "type": "local",
